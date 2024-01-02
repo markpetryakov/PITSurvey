@@ -1,0 +1,972 @@
+﻿@model PITSurvey.Models.SurveyAnswers
+@{
+    ViewData["Title"] = "Part2";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homeless Individuals Survey</title>
+</head>
+<body>
+    <div class="survey-form">
+        <form asp-action="Part2" method="post">
+            <h2>City of Ottawa Survey</h2>
+
+            <div class="survey-section">
+                <span>Your Initials:</span>
+                <input type="string" id="SurveyorInitials" name="SurveyorInitials" style="margin-left: 110px" /> <br /><br />
+                <span>Your contact phone number:</span>
+                <input type="string" id="ContactNumber" name="ContactNumber" /> <br />
+            </div>
+
+
+            <!-- Section 1 -->
+            <div class="survey-section">
+                <h4>Section 1</h4>
+                <p class="question">
+                Do you have family members staying with you?</p>
+                <input type="checkbox" id="hasFamilyMembers" name="hasFamilyMembers" /> Yes
+
+                <div id="familyMembersContainer" style="display:none;">
+                    <h3>Family Members</h3>
+                    <button type="button" id="addFamilyMember">Add Family Member</button>
+                </div>
+            </div>
+
+
+            <!-- Section 2 -->
+            <div class="survey-section">
+                <h4>Section 2</h4>
+                <p class="question">How old are you?</p>
+                <div>
+                    <label class="radioRight">
+                        <input type="radio" id="SurveyorAge" name="SurveyorAge" value="Don't Know"> Don't Know 
+                        <input type="radio" id="SurveyorAge" name="SurveyorAge" value="Decline to Answer"> Decline to Answer
+                    </label>
+                    <span for="AgeInput">Age:</span>
+                    <input type="number" id="SurveyorAge" name="SurveyorAge" style="margin-left: 85px"/> <br />
+                    <span for="AgeInput">OR Year of birth:</span>
+                    <input type="number" id="SurveyorYearBirth" name="SurveyorYearBirth" /> <br />
+                    
+                    
+
+                </div>
+            </div>
+
+            <!-- Section 3 -->
+            <div class="survey-section">
+                <h4>Section 3: Homelessness Experience</h4>
+                <p class="question">
+                    For the purpose of this survey, “homelessness” is defined as any period when you did not have a permanent
+                    and secure place to live, including sleeping in shelters, on the streets, or temporarily living with others
+                    without having your own permanent housing (e.g., couch surfing).
+                </p>
+                <div name="q3">
+                    <label for="Sections3_5.FirstTimeHomeless">
+                        How old were you approximately when you first experienced homelessness?
+                    </label>
+                    <label class="radioRight">
+                        <input type="radio" id="Sections3_5.FirstTimeHomeless" name="Sections3_5.FirstTimeHomeless" value="Don't Know"> Don't Know
+                        <input type="radio" id="Sections3_5.FirstTimeHomeless" name="Sections3_5.FirstTimeHomeless" value="Decline to Answer"> Decline to Answer
+                    </label>
+                    <label>
+                    <input type="number" id="Sections3_5.FirstTimeHomeless" name="Sections3_5.FirstTimeHomeless" placeholder="Enter age" min="1" max="120" />
+                    </label>
+                    
+                    
+                </div>
+            </div>
+
+
+
+            <!-- Section 4 -->
+            <div class="survey-section">
+                <h4>Section 4: Homelessness in the Past Year</h4>
+                <div name="q4">
+                    <p class="question">
+                        Over the past year (last 12 months), how much time, in total, have you experienced homelessness?
+                    </p>
+                    <label class="radioRight">
+                        <input type="radio" id="Sections3_5.TimeHomeless" name="Sections3_5.TimeHomeless" value="Don't Know"> Don't Know
+                        <input type="radio" id="Sections3_5.TimeHomeless" name="Sections3_5.TimeHomeless" value="Decline to Answer"> Decline to Answer
+                    </label>
+                    <label>
+                    <input type="text" id="Sections3_5.TimeHomeless" name="Sections3_5.TimeHomeless" placeholder="Enter time in days/weeks/months" min="0" />
+                    </label>
+                    
+                </div>
+            </div>
+
+            <!-- Section 5 -->
+            <div class="survey-section">
+                <h4>Section 5: Shelter Experience</h4>
+                <p class="question">
+                    In the past year, have you stayed in a homeless shelter? (e.g., Salvation Army, The Mission, Cornerstone,
+                    Family Shelter, Motel, A Women Against Violence Shelter, etc.)
+                </p>
+                <div name="q5">
+                    <label class="radioRight">
+                        <input type="radio" id="Sections3_5.StayedInShelter" name="Sections3_5.StayedInShelter" value="Don't Know" onclick="showHideReasonSection('yes');"> Don't Know
+                        <input type="radio" id="Sections3_5.StayedInShelter" name="Sections3_5.StayedInShelter" value="Decline to Answer" onclick="showHideReasonSection('yes');"> Decline to Answer
+                    </label>
+                    <label>
+                    <input type="radio" id="Sections3_5.StayedInShelter" name="Sections3_5.StayedInShelter" value="yes" onclick="showHideReasonSection('yes');"> Yes
+                    </label>
+                    <label>
+                    <input type="radio" id="Sections3_5.StayedInShelter" name="Sections3_5.StayedInShelter" value="no" onclick="showHideReasonSection('no');"> No 
+                    </label>
+
+                    
+
+                    <!-- If "No" is selected, show the following div -->
+                    <div id="q5b" style="display: none;">
+                        <label for="Sections3_5.NotStayedInShelterReason">
+                            If not, what are the main reasons? Select all that apply.
+                        </label>
+                        <label>
+                        <input type="checkbox" id="Sections3_5.NotStayedInShelterReason" name="Sections3_5.NotStayedInShelterReason" value="turnedAwayFull"> Turned away (Shelters are full)
+                        </label>
+                        <label>
+                        <input type="checkbox" id="Sections3_5.NotStayedInShelterReason" name="Sections3_5.NotStayedInShelterReason" value="turnedAwayBanned"> Turned away (Banned)
+                        </label>
+                        <label>
+                        <input type="checkbox" id="Sections3_5.NotStayedInShelterReason" name="Sections3_5.NotStayedInShelterReason" value="lackTransportation"> Lack of transportation
+                        </label>
+                        <label>
+                        <input type="checkbox" id="Sections3_5.NotStayedInShelterReason" name="Sections3_5.NotStayedInShelterReason" value="safetyFear"> Fear for safety
+                        </label>
+                        <label>
+                        <input type="checkbox" id="Sections3_5.NotStayedInShelterReason" name="Sections3_5.NotStayedInShelterReason" value="bedBugs"> Bed bugs and other pests
+                        </label>
+                        <label>
+                        <input type="checkbox" id="Sections3_5.NotStayedInShelterReason" name="Sections3_5.NotStayedInShelterReason" value="Crowded"> Crowded
+                        </label>
+                        <label>
+                        <input type="checkbox" id="Sections3_5.NotStayedInShelterReason" name="Sections3_5.NotStayedInShelterReason"> Other
+                        <input type="text" id="Sections3_5.NotStayedInShelterReason" name="Sections3_5.NotStayedInShelterReason" placeholder="Please specify">
+                        </label>
+
+                                       
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 6 -->
+            <div class="survey-section">
+                <h4>Section 6: Immigration Status</h4>
+                <p class="question">Did you come to Canada as an immigrant, refugee, or a refugee claimant (i.e., applied for refugee
+                    status after coming to Canada)?</p>
+                <label class="radioRight">
+                    <input type="radio" id="Sections6_10.ImmigrationStatus" name="Sections6_10.ImmigrationStatus" value="Don't Know" onclick="showHideImmigrantDetails('no');"> Don't Know
+                    <input type="radio" id="Sections6_10.ImmigrationStatus" name="Sections6_10.ImmigrationStatus" value="Decline to Answer" onclick="showHideImmigrantDetails('no');"> Decline to Answer
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.ImmigrationStatus" name="Sections6_10.ImmigrationStatus" value="yesImmigrant" onclick="showHideImmigrantDetails('yes');"> Yes, Immigrant <br>
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.ImmigrationStatus" name="Sections6_10.ImmigrationStatus" value="yesRefugee" onclick="showHideImmigrantDetails('yes');"> Yes, Refugee <br>
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.ImmigrationStatus" name="Sections6_10.ImmigrationStatus" value="yesRefugeeClaimant" onclick="showHideImmigrantDetails('yes');"> Yes, Refugee Claimant <br>
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.ImmigrationStatus" name="Sections6_10.ImmigrationStatus" value="no" onclick="showHideImmigrantDetails('no');"> No <br>
+                </label>
+
+                
+                <!-- If yes, show this div -->
+                <div id="ImmigrantDetails" style="display: none;">
+                    <label for="TimeInCanada">How long have you been in Canada?</label>
+                    <input type="text" id="Sections6_10.TimeInCanada" name="Sections6_10.TimeInCanada" />
+                        
+                    <label for="DateInCanada">OR date you arrived in Canada:</label>
+                    
+                    <label>
+                    <input type="date" id="Sections6_10.DateInCanada" name="Sections6_10.DateInCanada" />
+                    </label>
+                   
+                </div>
+            </div>
+
+            <!-- Section 6c -->
+            <div class="survey-section">
+                <h4>Section 6c: Canadian Citizenship</h4>
+                <p class="question">Are you a Canadian Citizen?</p>
+                <label class="radioRight">
+                    <input type="radio" id="Sections6_10.CanadianCitizen" name="Sections6_10.CanadianCitizen" value="Don't Know" onclick="showHideImmigrantDetails('no');"> Don't Know
+                    <input type="radio" id="Sections6_10.CanadianCitizen" name="Sections6_10.CanadianCitizen" value="Decline to Answer" onclick="showHideImmigrantDetails('no');"> Decline to Answer
+                </label>
+                <label>
+                <input type="radio" id="Sections6_10.CanadianCitizen" name="Sections6_10.CanadianCitizen" value="yes" onclick="showHideNonCitizenDetails('yes');"> Yes<br>
+                </label>
+                <label>
+                <input type="radio" id="Sections6_10.CanadianCitizen" name="Sections6_10.CanadianCitizen" value="no" onclick="showHideNonCitizenDetails('no');"> No<br>
+                </label>
+                
+
+                <!-- If no, show the following div -->
+                <div id="NonCitizenDetails" style="display: none;">
+                    <label for="NonCitizenStatus">Select your non-citizen status:</label>
+                    <label>
+                    <input type="radio" id="Sections6_10.NonCitizenStatus" name="Sections6_10.NonCitizenStatus" value="Permanent Resident"> Permanent Resident
+                    </label>
+                    <label>
+                    <input type="radio" id="Sections6_10.NonCitizenStatus" name="Sections6_10.NonCitizenStatus" value="Refugee Claimant"> Refugee Claimant
+                    </label>
+                    <label>
+                    <input type="radio" id="Sections6_10.NonCitizenStatus" name="Sections6_10.NonCitizenStatus" value="Temporary Foreign Worker"> Temporary Foreign Worker
+                    </label>
+                    <label>
+                    <input type="radio" id="Sections6_10.NonCitizenStatus" name="Sections6_10.NonCitizenStatus" value="International Student"> International Student
+                    </label>
+                    <label>
+                    <input type="radio" id="Sections6_10.NonCitizenStatus" name="Sections6_10.NonCitizenStatus" > Other
+                    <input type="text" id="Sections6_10.NonCitizenStatus" name="Sections6_10.NonCitizenStatus" placeholder="Please specify">
+                    </label>
+                    
+                                       
+                </div>
+            </div>
+
+            <!-- Section 7-->
+            <div class="survey-section">
+                <h4>Section 7</h4>
+                <p class="question">
+                Approximately how long have you been in Ottawa?</p>
+                <label class="radioRight">
+                    <input type="radio" id="Sections6_10.LengthOfTimeInOttawa" name="Sections6_10.LengthOfTimeInOttawa" value="Don't Know"> Don't Know
+                    <input type="radio" id="Sections6_10.LengthOfTimeInOttawa" name="Sections6_10.LengthOfTimeInOttawa" value="Decline to Answer"> Decline to Answer
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.LengthOfTimeInOttawa" name="Sections6_10.LengthOfTimeInOttawa" value="always"> Always lived here
+                </label>
+                <input type="text" id="Sections6_10.LengthOfTimeInOttawa" name="Sections6_10.LengthOfTimeInOttawa" placeholder="Enter length in days/months/years"> <br />
+                <div id="q7b">
+                    <p>Where did you live before you came here?</p>
+                    
+                    <input type="text" id="Sections6_10.LivedBeforeOttawa" name="Sections6_10.LivedBeforeOttawa" placeholder="City/Country">
+                </div>
+                
+
+               
+            </div>
+                        
+            <!-- Section 7c-->
+
+             <div class="survey-section">
+                <h4>Section 7c</h4>
+                <p class="question">
+                    What is the main reason you came to Ottawa?</p>
+                <label class="radioRight">
+                    <input type="radio" id="Sections6_10.ReasonForComingToOttawa" name="Sections6_10.ReasonForComingToOttawa" value="Don't Know"> Don't Know
+                    <input type="radio" id="Sections6_10.ReasonForComingToOttawa" name="Sections6_10.ReasonForComingToOttawa" value="Decline to Answer"> Decline to Answer
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.ReasonForComingToOttawa" name="Sections6_10.ReasonForComingToOttawa" value="To access supports" /> To access supports
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.ReasonForComingToOttawa" name="Sections6_10.ReasonForComingToOttawa" value="Family moved here" /> Family moved here
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.ReasonForComingToOttawa" name="Sections6_10.ReasonForComingToOttawa" value="To visit friends and family" /> To visit friends and family
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.ReasonForComingToOttawa" name="Sections6_10.ReasonForComingToOttawa" value="To find housing"> To find housing
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.ReasonForComingToOttawa" name="Sections6_10.ReasonForComingToOttawa" value="Seeking employment" /> Seeking employment
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.ReasonForComingToOttawa" name="Sections6_10.ReasonForComingToOttawa" value="Secured employment" /> Secured employment
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.ReasonForComingToOttawa" name="Sections6_10.ReasonForComingToOttawa" value="To attend school" /> To attend school
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.ReasonForComingToOttawa" name="Sections6_10.ReasonForComingToOttawa" value="Fear for safety" /> Fear for safety
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.ReasonForComingToOttawa" name="Sections6_10.ReasonForComingToOttawa" value="Recreation/shopping" /> Recreation/shopping
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.ReasonForComingToOttawa" name="Sections6_10.ReasonForComingToOttawa" > Other
+                    <input type="text" id="Sections6_10.ReasonForComingToOttawa" name="Sections6_10.ReasonForComingToOttawa" placeholder="Please, specify">
+                </label>
+                                  
+                </div>
+
+
+            <!-- Section 8a -->
+            <div class="survey-section">
+                <h4>Section 8a</h4>
+                <p class="question">
+                    Do you identify as First Nations, Inuit, or Métis, or do you have North American Indigenous ancestry?
+                </p>
+                <label class="radioRight">
+                    <input type="radio" id="Sections6_10.IndigenousCommunity" name="Sections6_10.IndigenousCommunity" value="Don't Know'"> Don't Know
+                    <input type="radio" id="Sections6_10.IndigenousCommunity" name="Sections6_10.IndigenousCommunity" value="Decline to Answer"> Decline to Answer
+                </label>
+                <label>
+                <input type="radio" id="Sections6_10.IndigenousCommunity" name="Sections6_10.IndigenousCommunity" value="Yes, First Nations"> Yes, First Nations
+                </label>
+                <label>
+                <input type="radio" id="Sections6_10.IndigenousCommunity" name="Sections6_10.IndigenousCommunity" value="Yes, Inuit"> Yes, Inuit 
+                </label>
+                <label>
+                <input type="radio" id="Sections6_10.IndigenousCommunity" name="Sections6_10.IndigenousCommunity" value="Yes, Metis"> Yes, Metis 
+                </label>
+                <label>
+                <input type="radio" id="Sections6_10.IndigenousCommunity" name="Sections6_10.IndigenousCommunity" value="Yes, Indigenous Ancestry"> Yes, Indigenous Ancestry 
+                </label>
+                <label>
+                <input type="radio" id="Sections6_10.IndigenousCommunity" name="Sections6_10.IndigenousCommunity" value="No"> No 
+                </label>
+          
+            </div>
+
+            <!-- Section 8b -->
+            <div class="survey-section">
+                <h4>Section 8b</h4>
+                <p class="question">
+                    In addition to your response in the question above, do you identify with any of the racial
+                    identities listed below?
+                </p>
+                <label class="radioRight">
+                    <input type="radio" id="Sections6_10.RacialIdentity" name="Sections6_10.RacialIdentity" value="Don't Know'"> Don't Know
+                    <input type="radio" id="Sections6_10.RacialIdentity" name="Sections6_10.RacialIdentity" value="Decline to Answer"> Decline to Answer
+                </label>
+                <label> 
+                <input type="radio" id="Sections6_10.RacialIdentity" name="Sections6_10.RacialIdentity" value="Arab"> Arab (e.g., Syrian, Egyptian, Yemeni)
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.RacialIdentity" name="Sections6_10.RacialIdentity" value="Asian-East"> Asian-East (e.g., Chinese, Korean, Japanese) 
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.RacialIdentity" name="Sections6_10.RacialIdentity" value="Asian-South-East"> Asian-South-East (e.g., Filipino, Vietnamese, Cambodian, Malaysian, Laotian)
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.RacialIdentity" name="Sections6_10.RacialIdentity" value="Asian-South or Indo-Caribbean"> Asian-South or Indo-Caribbean (e.g., Indian, Pakistani, Sri Lankan, Indo-Guyanese, Indo-Trinidadian)
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.RacialIdentity" name="Sections6_10.RacialIdentity" value="Asian-West"> Asian-West (e.g., Iranian, Afghan)  
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.RacialIdentity" name="Sections6_10.RacialIdentity" value="Black-Canadian/American"> Black-Canadian/American
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.RacialIdentity" name="Sections6_10.RacialIdentity" value="Black-African"> Black-African (e.g., Ghanaian, Ethiopian, Nigerian) 
+                </label>
+                <label>
+                <input type="radio" id="Sections6_10.RacialIdentity" name="Sections6_10.RacialIdentity" value="Black-Afro-Caribbean or Afro-Latinx"> Black-Afro-Caribbean or Afro-Latinx (e.g., Jamaican, Haitian, Afro-Brazilian) 
+                </label>
+                <label>
+                <input type="radio" id="Sections6_10.RacialIdentity" name="Sections6_10.RacialIdentity" value="Latin American"> Latin American (e.g., Brazilian, Mexican, Chilean, Cuban)
+                </label>
+                <label>
+                <input type="radio" id="Sections6_10.RacialIdentity" name="Sections6_10.RacialIdentity" value="White"> White (e.g. European, French, Ukrainian, Euro-Latinx)
+                </label>
+
+                <label>
+                <input type="radio" id="Sections6_10.RacialIdentity" name="Sections6_10.RacialIdentity" value="Indigenous only" /> Identify as Indigenous only <br>
+                </label>
+                <label>
+                    <input type="radio" id="Sections6_10.RacialIdentity" name="Sections6_10.RacialIdentity"> Not Listed
+                    <input type="text" id="Sections6_10.RacialIdentity" name="Sections6_10.RacialIdentity" placeholder="Please, specify">
+                </label>
+                
+            </div>
+
+            <!-- Section 9 -->
+            <div class="survey-section">
+                <h4>Section 9</h4>
+                <p class="question">Have you ever served in the Canadian Military or RCMP? (Military includes Canadian Navy, Army, or Air Force)</p>
+
+                <label class="radioRight">
+                    <input type="radio" id="Sections6_10.ServedMilitary" name="Sections6_10.ServedMilitary" value="Don't Know" /> Don't Know
+                    <input type="radio" id="Sections6_10.ServedMilitary" name="Sections6_10.ServedMilitary" value="Decline to Answer" /> Decline to Answer
+                </label>
+                <label for="MilitaryService_YesMilitary">
+                    <input type="radio" id="Sections6_10.ServedMilitary" name="Sections6_10.ServedMilitary"  value="Military" />Yes, Military
+                </label>
+
+                <label for="MilitaryService_YesRCMP">
+                    <input type="radio" id="Sections6_10.ServedMilitary" name="Sections6_10.ServedMilitary"  value="RCMP" />Yes, RCMP
+                </label>
+
+                <label for="MilitaryService_BothMilitaryRCMP">
+                    <input type="radio" id="Sections6_10.ServedMilitary" name="Sections6_10.ServedMilitary"  value="Both Military and RCMP" />Both Military and RCMP
+                </label>
+
+                <label for="MilitaryService_NoMilitary">
+                    <input type="radio" id="Sections6_10.ServedMilitary" name="Sections6_10.ServedMilitary"  value="No" />No
+                </label>
+                
+            </div>
+
+
+
+            <!-- Section 10 -->
+            <div class="survey-section">
+                <h4>Section 10</h4>
+                <p class="question">As a child or youth, were you ever in foster care or in a youth group home?</p>
+                <div class="options">
+                    <label class="radioRight">
+                        <input type="radio" id="Sections6_10.FosterCare" name="Sections6_10.FosterCare" value="Don't Know" onclick="showHideSection10b('no')" />
+                        <span>Don't Know</span>
+                        <input type="radio" id="Sections6_10.FosterCare" name="Sections6_10.FosterCare" value="Decline to Answer" onclick="showHideSection10b('no')" />
+                        <span>Decline to Answer</span>
+                    </label>
+                    <label for="FosterCare_Yes">
+                        <input type="radio" id="Sections6_10.FosterCare" name="Sections6_10.FosterCare"  value="Yes" onclick="showHideSection10b('yes')"/>
+                        <span>Yes</span>
+                    </label>
+
+                    <label for="FosterCare_No">
+                        <input type="radio" id="Sections6_10.FosterCare" name="Sections6_10.FosterCare"  value="No" onclick="showHideSection10b('no')" />
+                        <span>No</span>
+                    </label>
+
+
+                </div>
+
+                <!-- If yes, display Section 10b -->
+                <div id="Section10b" style="display: none;">
+                    <h4>Section 10b</h4>
+                    <p class="question">Approximately how long after leaving foster care/group home did you become homeless?</p>
+                    <div>
+                        <input type="text" id="Sections6_10.HomelessAfterFosterCare" name="Sections6_10.HomelessAfterFosterCare" placeholder="Enter length in days/months/years" />
+                                              
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 11 -->
+            <div class="survey-section">
+                <h4>Section 11</h4>
+                <p class="question">Do you identify as having any of the following health challenges at this time?</p>
+
+                <!-- Illness or Medical Condition -->
+                <div class="health-category" id="illnessCondition">
+                    <h4>Illness or Medical Condition</h4>
+                    <span>e.g. diabetes, arthritis, TB, HIV</span>
+
+                    <div class="options">
+                        <label class="radioRight">
+                            <input type="radio" id="Sections11_13.IllnessOrMedicalCondition" name="Sections11_13.IllnessOrMedicalCondition" value="Don't Know" />
+                            <span>Don't Know</span>
+                            <input type="radio" id="Sections11_13.IllnessOrMedicalCondition" name="Sections11_13.IllnessOrMedicalCondition" value="Decline to Answer" />
+                            <span>Decline to Answer</span>
+                        </label>
+                        <label>
+                            <input type="radio" id="Sections11_13.IllnessOrMedicalCondition" name="Sections11_13.IllnessOrMedicalCondition" value="Yes" />
+                            <span>Yes</span>
+                        </label>
+
+                        <label>
+                            <input type="radio" id="Sections11_13.IllnessOrMedicalCondition" name="Sections11_13.IllnessOrMedicalCondition" value="No" />
+                            <span>No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Physical Limitation -->
+                <div class="health-category" id="physicalLimitation">
+                    <h4>Physical Limitation</h4>
+                    <span>e.g. challenges with mobility, physical abilities or dexterity</span>
+
+                    <div class="options">
+                        <label class="radioRight">
+                            <input type="radio" id="Sections11_13.PhysicalLimitation" name="Sections11_13.PhysicalLimitation" value="Don't Know" />
+                            <span>Don't Know</span>
+                            <input type="radio" id="Sections11_13.PhysicalLimitation" name="Sections11_13.PhysicalLimitation" value="Decline to Answer" />
+                            <span>Decline to Answer</span>
+                        </label>
+                        <label>
+                            <input type="radio" id="Sections11_13.PhysicalLimitation" name="Sections11_13.PhysicalLimitation" value="Yes" />
+                            <span>Yes</span>
+                        </label>
+
+                        <label>
+                            <input type="radio" id="Sections11_13.PhysicalLimitation" name="Sections11_13.PhysicalLimitation" value="No" />
+                            <span>No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Learning or Cognitive Limitations -->
+                <div class="health-category" id="learningCognitive">
+                    <h4>Learning or Cognitive Limitations</h4>
+                    <span>e.g. dyslexia, autism spectrum disorder, or as a result of ADHD or an acquired brain injury or developmental disability</span>
+                   
+                    <div class="options">
+                        <label class="radioRight">
+                            <input type="radio" id="Sections11_13.LearningOrCognitiveLimitations" name="Sections11_13.LearningOrCognitiveLimitations" value="Don't Know" />
+                            <span>Don't Know</span>
+                            <input type="radio" id="Sections11_13.LearningOrCognitiveLimitations" name="Sections11_13.LearningOrCognitiveLimitations" value="Decline to Answer" />
+                            <span>Decline to Answer</span>
+                        </label>
+                        <label>
+                            <input type="radio" id="Sections11_13.LearningOrCognitiveLimitations" name="Sections11_13.LearningOrCognitiveLimitations" value="Yes" />
+                            <span>Yes</span>
+                        </label>
+
+                        <label>
+                            <input type="radio" id="Sections11_13.LearningOrCognitiveLimitations" name="Sections11_13.LearningOrCognitiveLimitations" value="No" />
+                            <span>No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Mental Health Issue -->
+                <div class="health-category" id="mentalHealth">
+                    <h4>Mental Health Issue (diagnosed/undiagnosed)</h4>
+                    <span>e.g. depression, Post-traumatic stress disorder (PTSD), bipolar disorder</span>
+
+                    <div class="options">
+                        <label class="radioRight">
+                            <input type="radio" id="Sections11_13.MentalHealthIssue" name="Sections11_13.MentalHealthIssue" value="Don't Know" />
+                            <span>Don't Know</span>
+                            <input type="radio" id="Sections11_13.MentalHealthIssue" name="Sections11_13.MentalHealthIssue" value="Decline to Answer" />
+                            <span>Decline to Answer</span>
+                        </label>
+                        <label>
+                            <input type="radio" id="Sections11_13.MentalHealthIssue" name="Sections11_13.MentalHealthIssue" value="Yes" />
+                            <span>Yes</span>
+                        </label>
+
+                        <label>
+                            <input type="radio" id="Sections11_13.MentalHealthIssue" name="Sections11_13.MentalHealthIssue" value="No" />
+                            <span>No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Substance Use Issue -->
+                <div class="health-category" id="substanceUse">
+                    <h4>Substance Use Issue</h4>
+                    <span>e.g., tobacco use, alcohol, opiates</span>
+
+                    <div class="options">
+                        <label class="radioRight">
+                            <input type="radio" id="Sections11_13.SubstanceUseIssue" name="Sections11_13.SubstanceUseIssue" value="Don't Know" />
+                            <span>Don't Know</span>
+                            <input type="radio" id="Sections11_13.SubstanceUseIssue" name="Sections11_13.SubstanceUseIssue" value="Decline to Answer" />
+                            <span>Decline to Answer</span>
+                        </label>
+                        <label>
+                            <input type="radio" id="Sections11_13.SubstanceUseIssue" name="Sections11_13.SubstanceUseIssue" value="Yes" />
+                            <span>Yes</span>
+                        </label>
+
+                        <label>
+                            <input type="radio" id="Sections11_13.SubstanceUseIssue" name="Sections11_13.SubstanceUseIssue" value="No" />
+                            <span>No</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Section 11a -->
+            <div class="survey-section">
+                <h4>Section 11a</h4>
+                <p class="question">Do you identify as having an acquired brain injury that happened after birth?</p>
+                <div class="options">
+                    <label class="radioRight">
+                        <input type="radio" id="Sections11_13.BrainInjuryAfterBirth" name="Sections11_13.BrainInjuryAfterBirth"  value="Don't Know" />
+                        <span>Don't Know</span>
+                        <input type="radio" id="Sections11_13.BrainInjuryAfterBirth" name="Sections11_13.BrainInjuryAfterBirth"  value="Decline to Answer" />
+                        <span>Decline to Answer</span>
+                    </label>
+                    <label>
+                        <input type="radio" id="Sections11_13.BrainInjuryAfterBirth" name="Sections11_13.BrainInjuryAfterBirth"  value="Yes" />
+                        <span>Yes</span>
+                    </label>
+
+                    <label>
+                        <input type="radio" id="Sections11_13.BrainInjuryAfterBirth" name="Sections11_13.BrainInjuryAfterBirth"  value="No" />
+                        <span>No</span>
+                    </label>
+                </div>
+            </div>
+
+
+
+            <!-- Section 12 -->
+            <div class="survey-section">
+                <h4>Section 12</h4>
+                <p class="question">What gender do you identify with?</p>
+                <div class="options">
+                    <label class="radioRight">
+                        <input type="radio" id="Sections11_13.Gender" name="Sections11_13.Gender"  value="Don't Know" />
+                        <span>Don't Know</span>
+                        <input type="radio" id="Sections11_13.Gender" name="Sections11_13.Gender"  value="Decline to Answer" />
+                        <span>Decline to Answer</span>
+                    </label>
+                    <label>
+                        <input type="radio" id="Sections11_13.Gender" name="Sections11_13.Gender"  value="Man" />
+                        <span>Man</span>
+                    </label>
+                    <label>
+                        <input type="radio" id="Sections11_13.Gender" name="Sections11_13.Gender"  value="Woman" />
+                        <span>Woman</span>
+                    </label>
+                    <label>
+                        <input type="radio" id="Sections11_13.Gender" name="Sections11_13.Gender"  value="Two-Spirit" />
+                        <span>Two-Spirit</span>
+                    </label>
+                    <label>
+                        <input type="radio" id="Sections11_13.Gender" name="Sections11_13.Gender"  value="Trans Woman" />
+                        <span>Trans Woman</span>
+                    </label>
+                    <label>
+                        <input type="radio" id="Sections11_13.Gender" name="Sections11_13.Gender"  value="Trans Man" />
+                        <span>Trans Man</span>
+                    </label>
+                    <label>
+                        <input type="radio" id="Sections11_13.Gender" name="Sections11_13.Gender"  value="Non-Binary" />
+                        <span>Non-Binary (Genderqueer)</span>
+                    </label>
+                    <label>
+                        <input type="radio" id="Sections11_13.Gender" name="Sections11_13.Gender"   /> Other
+                        <input type="text" id="Sections11_13.Gender" name="Sections11_13.Gender" placeholder="Please, specify"/>
+                    </label>
+
+                </div>
+            </div>
+
+            <!-- Section 13 -->
+            <div class="survey-section">
+                <h4>Section 13</h4>
+                <p class="question">How do you describe your sexual orientation, for example straight, gay, lesbian?</p>
+                <div class="options">
+                    <label class="radioRight">
+                        <input type="radio" id="Sections11_13.SexualOrientation" name="Sections11_13.SexualOrientation"  value="Don't Know" />
+                        <span>Don't Know</span>
+                        <input type="radio" id="Sections11_13.SexualOrientation" name="Sections11_13.SexualOrientation"  value="Decline to Answer" />
+                        <span>Decline to Answer</span>
+                    </label>
+                    <label>
+                        <input type="radio" id="Sections11_13.SexualOrientation" name="Sections11_13.SexualOrientation"  value="Straight" />
+                        <span>Straight/Heterosexual</span>
+                    </label>
+
+                    <label>
+                        <input type="radio" id="Sections11_13.SexualOrientation" name="Sections11_13.SexualOrientation"  value="Gay" />
+                        <span>Gay</span>
+                    </label>
+
+                    <label>
+                        <input type="radio" id="Sections11_13.SexualOrientation" name="Sections11_13.SexualOrientation"  value="Lesbian" />
+                        <span>Lesbian</span>
+                    </label>
+
+                    <label>
+                        <input type="radio" id="Sections11_13.SexualOrientation" name="Sections11_13.SexualOrientation"  value="Bisexual" />
+                        <span>Bisexual</span>
+                    </label>
+
+                    <label>
+                        <input type="radio" id="Sections11_13.SexualOrientation" name="Sections11_13.SexualOrientation"  value="Two-Spirit" />
+                        <span>Two-Spirit</span>
+                    </label>
+
+                    <label>
+                        <input type="radio" id="Sections11_13.SexualOrientation" name="Sections11_13.SexualOrientation"  value="Pansexual" />
+                        <span>Pansexual</span>
+                    </label>
+
+                    <label>
+                        <input type="radio" id="Sections11_13.SexualOrientation" name="Sections11_13.SexualOrientation"  value="Asexual" />
+                        <span>Asexual</span>
+                    </label>
+
+                    <label>
+                        <input type="radio" id="Sections11_13.SexualOrientation" name="Sections11_13.SexualOrientation"  value="Questioning" />
+                        <span>Questioning</span>
+                    </label>
+
+                    <label>
+                        <input type="radio" id="Sections11_13.SexualOrientation" name="Sections11_13.SexualOrientation"  value="Queer" />
+                        <span>Queer</span>
+                    </label>
+
+                    <label>
+                        <input type="radio" id="Sections11_13.SexualOrientation" name="Sections11_13.SexualOrientation"  /> Other
+                        <input type="text" id="Sections11_13.SexualOrientation" name="Sections11_13.SexualOrientation" placeholder="Please, specify"/>
+                    </label>
+                </div>
+            </div>
+
+
+
+            <!-- Section 14a -->
+            <div class="survey-section">
+                <h4>Section 14a</h4>
+                <p class="question">What happened that caused you to lose your housing most recently? [Check all that apply. “Housing” does not include temporary arrangements (e.g., couch surfing) or shelter stays.]</p>
+                <label class="radioRight">
+                    <input type="radio" id="Section14.OtherHousingLossReason" name="Section14.OtherHousingLossReason"  value="Don't Know" />
+                    <span>Don't Know</span>
+                    <input type="radio" id="Section14.OtherHousingLossReason" name="Section14.OtherHousingLossReason"  value="Decline to Answer" />
+                    <span>Decline to Answer</span>
+                </label>
+                <!-- A: HOUSING AND FINANCIAL ISSUES -->
+                <div id="housingFinancialIssues">
+                    <label><strong>A: Housing and Financial Issues</strong></label>
+                    <div class="options">
+                        <input type="checkbox" id="Section14.HousingAndFinancialIssues" name="Section14.HousingAndFinancialIssues"  value="Not enough income" /> Not enough income for housing (e.g., lost benefit, income, or job) <br>
+                        <input type="checkbox" id="Section14.HousingAndFinancialIssues" name="Section14.HousingAndFinancialIssues"  value="Unfit/unsafe housing condition" /> Unfit/unsafe housing condition <br>
+                        <input type="checkbox" id="Section14.HousingAndFinancialIssues" name="Section14.HousingAndFinancialIssues"  value="Building sold or renovated" /> Building sold or renovated <br>
+                        <input type="checkbox" id="Section14.HousingAndFinancialIssues" name="Section14.HousingAndFinancialIssues"  value="Owner moved in" /> Owner moved in <br>
+                        <input type="checkbox" id="Section14.HousingAndFinancialIssues" name="Section14.HousingAndFinancialIssues"  value="Landlord/tenant conflict" /> Landlord/tenant conflict <br>
+                        <input type="checkbox" id="Section14.HousingAndFinancialIssues" name="Section14.HousingAndFinancialIssues"  value="Complaint (e.g., pets/noise/damage)" /> Complaint (e.g., pets/noise/damage) <br>
+                        <input type="checkbox" id="Section14.HousingAndFinancialIssues" name="Section14.HousingAndFinancialIssues"  value="Left the community/relocated" /> Left the community/relocated <br />
+                    </div>
+                </div>
+
+                <!-- B: INTERPERSONAL AND FAMILY ISSUES -->
+                <div id="interpersonalFamilyIssues">
+                    <label><strong>B: Interpersonal and Family Issues</strong></label>
+                    <div class="options">
+                        <input type="checkbox" id="Section14.InterpersonalAndFamilyIssues" name="Section14.InterpersonalAndFamilyIssues"  value="Conflict with Spouse/partner" /> Conflict with Spouse/partner <br>
+                        <input type="checkbox" id="Section14.InterpersonalAndFamilyIssues" name="Section14.InterpersonalAndFamilyIssues"  value="Conflict with Parent/guardian" /> Conflict with Parent/guardian <br>
+                        <input type="checkbox" id="Section14.InterpersonalAndFamilyIssues" name="Section14.InterpersonalAndFamilyIssues"  value="Experienced abuse by Spouse/partner" /> Experienced abuse by Spouse/partner <br>
+                        <input type="checkbox" id="Section14.InterpersonalAndFamilyIssues" name="Section14.InterpersonalAndFamilyIssues"  value="Experienced abuse by Parent/guardian" /> Experienced abuse by Parent/guardian <br>
+                        <input type="checkbox" id="Section14.InterpersonalAndFamilyIssues" name="Section14.InterpersonalAndFamilyIssues"  value="Departure of family member" /> Departure of family member <br>
+                        <input type="checkbox" id="Section14.InterpersonalAndFamilyIssues" name="Section14.InterpersonalAndFamilyIssues"  value="Experienced discrimination" /> Experienced discrimination <br />
+                    </div>
+                </div>
+
+                <!-- C: HEALTH OR CORRECTIONS -->
+                <div id="healthCorrections">
+                    <label><strong>C: Health or Corrections</strong></label>
+                    <div class="options">
+                        <input type="checkbox" id="Section14.HealthOrCorrections" name="Section14.HealthOrCorrections"  value="Physical health issue" /> Physical health issue <br>
+                        <input type="checkbox" id="Section14.HealthOrCorrections" name="Section14.HealthOrCorrections"  value="Mental health issue" /> Mental health issue <br>
+                        <input type="checkbox" id="Section14.HealthOrCorrections" name="Section14.HealthOrCorrections"  value="Substance use issue" /> Substance use issue <br>
+                        <input type="checkbox" id="Section14.HealthOrCorrections" name="Section14.HealthOrCorrections"  value="Hospitalization or treatment program" /> Hospitalization or treatment program <br>
+                        <input type="checkbox" id="Section14.HealthOrCorrections" name="Section14.HealthOrCorrections"  value="Incarceration" /> Incarceration (jail or prison) <br />
+                    </div>
+                </div>
+
+                <!-- Other reason input -->
+                <div class="other-reason">
+                    <label><strong>Other Reason:</strong></label>
+                    <input type="text" id="Section14.OtherHousingLossReason" name="Section14.OtherHousingLossReason" placeholder="Please specify" />
+                </div>
+            </div>
+
+
+
+
+            <!-- Section 14b -->
+            <div class="survey-section" id="section14b">
+                <h4>Section 14b</h4>
+                <p class="question">Was your most recent housing loss related to the COVID-19 pandemic?</p>
+                <div class="options">
+                    <label class="radioRight">
+                        <input type="radio" id="Section14.CovidRelatedLoss" name="Section14.CovidRelatedLoss"  value="DontKnow" onclick="hideSection14c()" /> Don't Know
+                        <input type="radio" id="Section14.CovidRelatedLoss" name="Section14.CovidRelatedLoss"  value="DeclineToAnswer" onclick="hideSection14c()" /> Decline to Answer
+                    </label>
+                    <label>
+                        <input type="radio" id="Section14.CovidRelatedLoss" name="Section14.CovidRelatedLoss"  value="Yes" onclick="showSection14c()" />Yes
+                    </label>
+                    <label>
+                        <input type="radio" id="Section14.CovidRelatedLoss" name="Section14.CovidRelatedLoss"  value="No" onclick="hideSection14c()" />No
+                    </label>
+                </div>
+            </div>
+
+            <!-- Section 14c -->
+            <div class="survey-section" id="section14c">
+                <h4>Section 14c</h4>
+                <p class="question">How long ago did that happen (that you lost your housing most recently)? (Best estimate)</p>
+                <label class="radioRight">
+                    <input type="radio" id="Section14.HousingLossHappenedAgo" name="Section14.HousingLossHappenedAgo"  value="DontKnow" />
+                    <span>Don't Know</span>
+                    <input type="radio" id="Section14.HousingLossHappenedAgo" name="Section14.HousingLossHappenedAgo"  value="DeclineToAnswer" />
+                    <span>Decline to Answer</span>
+                </label>
+                <div>
+                    <input type="text" id="Section14.HousingLossHappenedAgo" name="Section14.HousingLossHappenedAgo" placeholder="Enter length in days/months/years" />
+                           
+                </div>
+            </div>
+
+            <!-- Section 15 -->
+            <div class="survey-section">
+                <h4>Section 15</h4>
+                <p class="question">What are your sources of income? [Remember, that this survey is anonymous. Read list and check all that apply]</p>
+
+                <div id="incomeSources">
+                    <label class="radioRight">
+                        <input type="radio" id="Sections15_19.SourcesOfIncome" name="Sections15_19.SourcesOfIncome"  value="DontKnow" />
+                        <span>Don't Know</span>
+                        <input type="radio" id="Sections15_19.SourcesOfIncome" name="Sections15_19.SourcesOfIncome"  value="DeclineToAnswer" />
+                        <span>Decline to Answer</span>
+                    </label>
+                    <fieldset>
+                        <input type="checkbox" id="Sections15_19.SourcesOfIncome" name="Sections15_19.SourcesOfIncome"  value="Full-time employment" /> Full-time employment <br>
+                        <input type="checkbox" id="Sections15_19.SourcesOfIncome" name="Sections15_19.SourcesOfIncome"  value="Part-time employment" /> Part-time employment <br>
+                        <input type="checkbox" id="Sections15_19.SourcesOfIncome" name="Sections15_19.SourcesOfIncome"  value="Casual employment" /> Casual employment (e.g., contract work) <br>
+                        <input type="checkbox" id="Sections15_19.SourcesOfIncome" name="Sections15_19.SourcesOfIncome"  value="Informal income sources" /> Informal income sources (e.g., bottle returns, panhandling) <br>
+                        <input type="checkbox" id="Sections15_19.SourcesOfIncome" name="Sections15_19.SourcesOfIncome"  value="Money from family/friends" /> Money from family/friends <br>
+                        <input type="checkbox" id="Sections15_19.SourcesOfIncome" name="Sections15_19.SourcesOfIncome"  value="Employment Insurance" /> Employment Insurance <br>
+                        <input type="checkbox"  /> Disability benefit 
+                        <input type="text" id="Sections15_19.SourcesOfIncome" name="Sections15_19.SourcesOfIncome"  placeholder="Enter name of Disability Benefit"/> <br />
+                        <input type="checkbox" id="Sections15_19.SourcesOfIncome" name="Sections15_19.SourcesOfIncome"  value="Other money from a service agency" /> Other money from a service agency <br />
+                        <input type="checkbox"  /> Other Sourse
+                        <input type="text" id="Sections15_19.SourcesOfIncome" name="Sections15_19.SourcesOfIncome"  placeholder="Enter other source"/> <br />
+                        <input type="checkbox" id="Sections15_19.SourcesOfIncome" name="Sections15_19.SourcesOfIncome"  value="No income" /> No income <br>
+                        
+                    </fieldset>
+                </div>
+            </div>
+
+
+            <!-- Section 16 -->
+            <div class="survey-section">
+                <h4>Section 16</h4>
+                <p class="question">What is the highest level of education you completed?</p>
+
+                <div id="educationLevel" class="education-options">
+                    <label class="radioRight">
+                        <input type="radio" id="Sections15_19.LevelOfEducation" name="Sections15_19.LevelOfEducation"  value="DontKnow" /> Don't Know
+                        <input type="radio" id="Sections15_19.LevelOfEducation" name="Sections15_19.LevelOfEducation"  value="DeclineToAnswer" /> Decline to Answer
+                    </label>
+                    <label>
+                    <input type="radio" id="Sections15_19.LevelOfEducation" name="Sections15_19.LevelOfEducation"  value="PrimarySchool" /> Primary School
+                    </label>
+                    <label>
+                    <input type="radio" id="Sections15_19.LevelOfEducation" name="Sections15_19.LevelOfEducation"  value="SomeHighSchool" /> Some High School 
+                    </label>
+                    <label>
+                    <input type="radio" id="Sections15_19.LevelOfEducation" name="Sections15_19.LevelOfEducation"  value="HighSchoolGraduateGED" /> High School Graduate/GED 
+                    </label>
+                    <label>
+                    <input type="radio" id="Sections15_19.LevelOfEducation" name="Sections15_19.LevelOfEducation"  value="SomePostSecondary" /> Some Post Secondary 
+                    </label>
+                    <label>
+                    <input type="radio" id="Sections15_19.LevelOfEducation" name="Sections15_19.LevelOfEducation"  value="PostSecondaryGraduate" /> Post Secondary Graduate 
+                    </label>
+                    <label>
+                    <input type="radio" id="Sections15_19.LevelOfEducation" name="Sections15_19.LevelOfEducation"  value="GraduateDegree" /> Graduate Degree (e.g., Masters, Ph.D.) 
+                    </label>
+                    <label>
+                    <input type="radio" id="Sections15_19.LevelOfEducation" name="Sections15_19.LevelOfEducation"  value="NoFormalEducation" /> No Formal Education
+                    </label>
+         
+                </div>
+            </div>
+
+
+
+            <!-- Section 17 -->
+            <div class="survey-section">
+                <h4>Section 17</h4>
+                <p class="question">Do you want to get into permanent housing?</p>
+                <div class="options">
+                    <label class="radioRight">
+                        <input type="radio" id="Sections15_19.WantToGetIntoPermanentHousing" name="Sections15_19.WantToGetIntoPermanentHousing" value="Don't Know" /> Don't Know
+                        <input type="radio" id="Sections15_19.WantToGetIntoPermanentHousing" name="Sections15_19.WantToGetIntoPermanentHousing" value="Decline To Answer" /> Decline to Answer
+                    </label>
+                    <label>
+                    <input type="radio" id="Sections15_19.WantToGetIntoPermanentHousing" name="Sections15_19.WantToGetIntoPermanentHousing" value="Yes" /> Yes 
+                    </label>
+                    <label>
+                    <input type="radio" id="Sections15_19.WantToGetIntoPermanentHousing" name="Sections15_19.WantToGetIntoPermanentHousing" value="No" /> No 
+                    </label>
+                </div>
+            </div>
+
+            <!-- Section 18 -->
+            <div class="survey-section">
+                <h4>Section 18</h4>
+                <p class="question">What challenges or problems have you experienced when trying to find housing? [Select all that apply]</p>
+                <label class="radioRight">
+                    <input type="radio" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing" value="Don't Know" /> Don't Know
+                    <input type="radio" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing" value="Decline To Answer" /> Decline to Answer
+                </label>
+                <div id="housingChallenges">
+                    <input type="checkbox" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing"  value="Low Income" /> Low Income <br>
+                    <input type="checkbox" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing"  value="No Income Assistance" /> No Income Assistance <br>
+                    <input type="checkbox" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing"  value="Rents Too High" /> Rents Too High <br>
+                    <input type="checkbox" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing"  value="Poor Housing Conditions" /> Poor Housing Conditions <br>
+                    <input type="checkbox" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing"  value="Domestic Violence" /> Domestic Violence <br>
+                    <input type="checkbox" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing"  value="Health/Disability Issues" /> Health/Disability Issues <br>
+                    <input type="checkbox" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing"  value="Mental Health Issues" /> Mental Health Issues <br>
+                    <input type="checkbox" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing"  value="Addiction" /> Addiction <br>
+                    <input type="checkbox" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing"  value="Family Breakdown/Conflict" /> Family Breakdown/Conflict <br>
+                    <input type="checkbox" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing"  value="Criminal History" /> Criminal History <br>
+                    <input type="checkbox" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing"  value="Pets" /> Pets <br>
+                    <input type="checkbox" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing"  value="Children" /> Children <br>
+                    <input type="checkbox" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing"  value="Discrimination" /> Discrimination <br>
+                    <input type="checkbox" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing"  value="Don't Want Housing" /> Don't Want Housing <br />
+                    <input type="checkbox" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing" value="No Barriers to Housing" /> No Barriers to Housing <br />
+                    <input type="checkbox"  /> Other
+                    <input type="text" id="Sections15_19.ChallengesToFindHousing" name="Sections15_19.ChallengesToFindHousing" /> <br />
+           
+                </div>
+            </div>
+
+            <!-- Section 19 -->
+            <div class="survey-section">
+                <h4>Section 19</h4>
+                <p class="question">What experiences would you need support with to help you through your housing journey?</p>
+                <label class="radioRight">
+                    <input type="radio" id="Sections15_19.SupportToHelpHousing" name="Sections15_19.SupportToHelpHousing" value="Don't Know" /> Don't Know
+                    <input type="radio" id="Sections15_19.SupportToHelpHousing" name="Sections15_19.SupportToHelpHousing" value="Decline To Answer" /> Decline to Answer
+                </label>
+                <div id="supportNeeds">
+                    <input type="checkbox" asp-for="Sections15_19.SupportToHelpHousing" name="Sections15_19.SupportToHelpHousing" value="Serious/Ongoing Medical Condition" /> Serious/Ongoing Medical Condition <br>
+                    <input type="checkbox" asp-for="Sections15_19.SupportToHelpHousing" name="Sections15_19.SupportToHelpHousing" value="Addiction or Substance Use" /> Addiction or Substance Use <br>
+                    <input type="checkbox" asp-for="Sections15_19.SupportToHelpHousing" name="Sections15_19.SupportToHelpHousing" value="Mental Health" /> Mental Health (Counseling, treatment, etc.) <br>
+                    <input type="checkbox" asp-for="Sections15_19.SupportToHelpHousing" name="Sections15_19.SupportToHelpHousing" value="Physical Disability" /> Physical Disability <br>
+                    <input type="checkbox" asp-for="Sections15_19.SupportToHelpHousing" name="Sections15_19.SupportToHelpHousing" value="Learning Disability" /> Learning Disability <br>
+                    <input type="checkbox" asp-for="Sections15_19.SupportToHelpHousing" name="Sections15_19.SupportToHelpHousing" value="Brain Injury" /> Brain Injury <br>
+                    <input type="checkbox" asp-for="Sections15_19.SupportToHelpHousing" name="Sections15_19.SupportToHelpHousing" value="Pregnancy" /> Pregnancy <br />
+                    <input type="checkbox" asp-for="Sections15_19.SupportToHelpHousing" name="Sections15_19.SupportToHelpHousing" value="None of the Above" /> None of the Above <br />
+
+                </div>
+            </div>
+
+
+
+            <div class="submit-btn">
+                <input type="submit" value="Submit" />
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
+
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#hasFamilyMembers').change(function () {
+                if (this.checked) {
+                    $('#familyMembersContainer').show();
+                } else {
+                    $('#familyMembersContainer').hide();
+                }
+            });
+
+            $('#addFamilyMember').click(function () {
+                var newMemberHtml = '<div>' +
+                '<span>Family Member</span><br>' +   
+                '<input type="text" id="FamilyMembers.Relationship" name="FamilyMembers.Relationship" placeholder="Relationship" />' +
+                    '<input type="text" id="FamilyMembers.Gender" name="FamilyMembers.Gender" placeholder="Gender" />' +
+                    '<input type="number" id="FamilyMembers.Age" name="FamilyMembers.Age" placeholder="Age" />' +
+                    '</div>';
+                $('#familyMembersContainer').append(newMemberHtml);
+            });
+        });
+    </script>
+}

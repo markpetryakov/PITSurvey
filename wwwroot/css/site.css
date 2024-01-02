@@ -1,0 +1,143 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 20px;
+}
+
+.radioRight {
+    text-align: right;
+}
+
+
+.survey-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.survey-section {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="checkbox"] {
+    margin-bottom: 10px;
+    margin-right: 5px;
+    
+}
+input[type="text"], input[type="number"] {
+    margin-bottom: 10px;
+    width: 300px;
+}
+
+.submit-btn {
+    margin-top: 20px;
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+    .submit-btn:hover {
+        background-color: #0056b3;
+    }
+
+
+#illnessCondition, #physicalLimitation, #learningCognitive, #mentalHealth, #substanceUse {
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+#illnessCondition, #physicalLimitation, #learningCognitive, #mentalHealth, #substanceUse {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h2 {
+    color: #333;
+}
+
+.question {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+    ul li {
+        margin-bottom: 10px;
+    }
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+/* Add this CSS to your existing style block or include it in a separate stylesheet */
+
+.Consents {
+    border: 1px solid #ddd; /* Light border color */
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f9f9f9; /* Lighter background color */
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+    .Consents li {
+        margin-bottom: 10px;
+        color: #666; /* Lighter font color */
+    }
+
+.dropdown {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+
+button:hover {
+    background-color: #45a049;
+}

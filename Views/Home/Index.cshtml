@@ -1,0 +1,69 @@
+﻿@model PITSurvey.Models.ConsentForm
+
+@{
+    ViewBag.Title = "Survey Index";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body>
+
+    <h2>Homeless Individuals Survey</h2>
+
+    @using (Html.BeginForm("CheckEligibility", "Home", FormMethod.Post))
+    {
+        <div class="question">
+            <p>A. Have you answered this survey today (@ViewBag.CurrentDate) or yesterday?</p>
+            <label>
+                @Html.RadioButtonFor(model => model.SurveyAnswer, "Yes") Yes
+            </label>
+            <label>
+                @Html.RadioButtonFor(model => model.SurveyAnswer, "No") No
+            </label>
+            <ul class="Consents">
+                <li>If yes, The survey will end.</li>
+                <li>Participation is voluntary, and your name will not be recorded. This is an anonymous survey.</li>
+                <li>We will be asking a wide range of questions, some of which may be personal to you. You can choose to skip any question or to stop the interview at any time.</li>
+            </ul>
+
+        </div>
+
+        <div class="question">
+
+            <p>B. Do you agree that the survey consent has been read to you, that you fully understand the information provided in it, and that you are voluntarily participating?</p>
+            <ul class="Consents">
+                <li>I am at least 16 yrs. of age.</li>
+                <li>I am currently experiencing homelessness.</li>
+                <li>I can refuse to do the survey or can refuse any question, can take a break, or end the survey early without it affecting the services I get now or in the future.</li>
+                <li>My survey information will go into a secure database that can only be accessed by people who have signed a confidentiality form.</li>
+                <li>The purposes of this survey are to help governments and agencies better understand housing needs and homelessness. All the answers will be combined into statistics and used to help governments and agencies plan services and housing. The results of the survey will be made public.</li>
+                <li>I will be asked questions about my age, gender, sexual orientation, family status and history, language, housing history including in institutions, citizenship, race, Indigenous status, military service, health challenges and income. I will also be asked about my needs and desires for housing and services, and obstacles I face. None of this information can be traced to me – everyone’s answers will be pooled.</li>
+                <li>If I tell you that I’m going to harm myself or someone else, I understand that you will have to disclose this information to authorities.</li>
+            </ul>
+            <label>
+                @Html.RadioButtonFor(model => model.AgreeToConsent, "Yes") Yes
+            </label>
+            <label>
+                @Html.RadioButtonFor(model => model.AgreeToConsent, "No") No
+            </label>
+        </div>
+
+        <div class="question">
+            <p>C. Where are you staying tonight? / Where did you stay last night (if surveyed on December 6th)?</p>
+            
+            <label>
+                @Html.DropDownListFor(model => model.StayingLocation, PITSurvey.Models.ConsentForm.GetLocationOptions())
+            </label>
+        </div>
+
+
+        <button type="submit">Submit</button>
+    }
+
+</body>
+</html>
