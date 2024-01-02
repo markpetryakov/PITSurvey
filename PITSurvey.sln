@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PITSurvey", "PITSurvey.csproj", "{E8995239-5238-4B4F-8A24-349C0ABE8521}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8995239-5238-4B4F-8A24-349C0ABE8521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8995239-5238-4B4F-8A24-349C0ABE8521}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8995239-5238-4B4F-8A24-349C0ABE8521}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8995239-5238-4B4F-8A24-349C0ABE8521}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {97911D6A-5618-441E-BE5B-2C95151B01DD}
+	EndGlobalSection
+EndGlobal
